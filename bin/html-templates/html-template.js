@@ -1,4 +1,5 @@
- const template =  `
+ const generateHtmlWithContent = (content) => {
+   const template =  `
  <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -141,38 +142,7 @@
             <div class="wrapper-footer"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIMAAAAcCAYAAABCrQzwAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkNCODdDMTZFNzk5NzExRTJCRjIyREJENjkxNDc3NEJEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkNCODdDMTZGNzk5NzExRTJCRjIyREJENjkxNDc3NEJEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6Q0I4N0MxNkM3OTk3MTFFMkJGMjJEQkQ2OTE0Nzc0QkQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Q0I4N0MxNkQ3OTk3MTFFMkJGMjJEQkQ2OTE0Nzc0QkQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz60pV1TAAALF0lEQVR42rRbe4weVRW/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" alt="Ruukki"></div>
         </div>
 
-        {{#payload.object.addtionalStaticWarrantyTerms}}
-          {{#roof}}
-            <div class="wrapper page-break">
-              <p><strong>{{roof}}</strong></p>
-            </div>
-          {{/roof}}
-          {{#flashing}}
-            <div class="wrapper page-break">
-              <p><strong>{{flashing}}</strong></p>
-            </div>
-          {{/flashing}}
-          {{#rws}}
-            <div class="wrapper page-break">
-              <p><strong>{{rws}}</strong></p>
-            </div>
-          {{/rws}}
-          {{#rsp}}
-            <div class="wrapper page-break">
-              <p><strong>{{rsp}}</strong></p>
-            </div>
-          {{/rsp}}
-          {{#lead_through}}
-            <div class="wrapper page-break">
-              <p><strong>{{lead_through}}</strong></p>
-            </div>
-          {{/lead_through}}
-          {{#underlay}}
-            <div class="wrapper page-break">
-              <p><strong>{{underlay}}</strong></p>
-            </div>
-          {{/underlay}}          
-        {{/payload.object.addtionalStaticWarrantyTerms}}
+        ${content}
 
         <div class="wrapper wrapper-two-columns">
             <div class="column">
@@ -212,3 +182,8 @@
     </body>
 </html>
  `;
+   return template;
+ }
+
+ module.exports = generateHtmlWithContent
+
